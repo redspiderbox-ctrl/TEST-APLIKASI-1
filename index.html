@@ -727,7 +727,7 @@
                 }
             }
             const date = new Date().toISOString().slice(0, 10);
-            pdf.save(`POLYTRON_${tabType === 'grid' ? 'TAP1' : 'TAP2'}_${date}.pdf`);
+            pdf.save(`Label Komponen Bekas_${tabType === 'grid' ? 'TAP1' : 'TAP2'}_${date}.pdf`);
             showToast('✅ PDF berhasil dibuat!');
         } catch (err) {
             console.error(err);
