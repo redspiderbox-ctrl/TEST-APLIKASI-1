@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Polytron Converter - Full Width A4</title>
+    <title>Polytron Converter - TAP 1 Gambar Tidak Terpotong</title>
 
     <!-- Library Eksternal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -27,15 +27,14 @@
             min-height: 100vh;
         }
 
-        /* Container utama - full width, konten mengikuti lebar A4 */
         .app-wrapper {
             width: 100%;
-            max-width: 210mm; /* SAMA DENGAN LEBAR KERTAS A4 */
+            max-width: 210mm;
             margin: 0 auto;
             padding: 0 8px;
         }
 
-        /* Header minimalis - lebih sempit ke atas */
+        /* Header */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -58,7 +57,7 @@
             color: #2c3e4f;
         }
 
-        /* Tab styling - compact */
+        /* Tab */
         .tabs {
             display: flex;
             gap: 6px;
@@ -93,7 +92,7 @@
             color: #C62828;
         }
 
-        /* Panel konten */
+        /* Panel */
         .panel {
             background: white;
             border-radius: 20px;
@@ -107,7 +106,7 @@
             display: block;
         }
 
-        /* Upload area - lebih kecil dan compact */
+        /* Upload box */
         .upload-box {
             background: #f8fafc;
             border: 2px dashed #cbd5e1;
@@ -144,7 +143,6 @@
             margin-bottom: 10px;
         }
 
-        /* Tombol group - compact */
         .button-group {
             display: flex;
             gap: 10px;
@@ -187,7 +185,7 @@
             cursor: not-allowed;
         }
 
-        /* Preview area - sejajar dengan lebar A4 */
+        /* Preview area */
         .preview-area {
             width: 100%;
             display: flex;
@@ -207,7 +205,7 @@
             width: 100%;
         }
 
-        /* Halaman A4 - full width sesuai container */
+        /* Halaman A4 */
         .a4-page {
             width: 100%;
             max-width: 210mm;
@@ -217,18 +215,18 @@
             margin: 0 auto;
         }
 
-        /* Grid 3x3 untuk TAP 1 */
+        /* Grid 3x3 untuk TAP 1 - PERBAIKAN: gambar tidak terpotong */
         .grid-3x3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(3, 1fr);
             gap: 6px;
             padding: 6mm;
-            aspect-ratio: 210 / 297; /* Proporsi A4 */
+            aspect-ratio: 210 / 297;
             width: 100%;
         }
 
-        /* Grid custom untuk TAP 2 (3 kolom, rata atas) */
+        /* Grid custom untuk TAP 2 */
         .grid-custom {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -240,13 +238,15 @@
 
         .photo-card {
             border: 3px solid #000000;
-            background: white;
+            background: #fefefe;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            position: relative;
         }
 
+        /* PERBAIKAN UTAMA: TAP 1 - gambar menggunakan object-contain agar tidak terpotong */
         .grid-3x3 .photo-card {
             min-height: 0;
         }
@@ -254,10 +254,12 @@
         .grid-3x3 .photo-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;  /* KUNCI: gambar utuh tidak terpotong, tidak melewati border */
             display: block;
+            background-color: #ffffff;
         }
 
+        /* TAP 2 - tetap menggunakan contain untuk konsistensi */
         .grid-custom .photo-card {
             flex-direction: column;
             justify-content: flex-start;
@@ -267,6 +269,7 @@
             width: 100%;
             height: auto;
             display: block;
+            object-fit: contain;
         }
 
         .empty-cell {
@@ -279,34 +282,29 @@
             font-size: 0.8rem;
         }
 
-        /* Responsive untuk mobile - tetap sejajar dengan lebar layar */
+        /* Responsive */
         @media screen and (max-width: 230mm) {
             .app-wrapper {
                 max-width: 100%;
                 padding: 0 6px;
             }
-            
             .a4-page {
                 transform: scale(1);
                 width: 100%;
             }
-            
             .grid-3x3 {
                 gap: 4px;
                 padding: 4mm;
             }
-            
             .grid-custom {
                 gap: 4px;
                 padding: 4mm;
             }
-            
             .photo-card {
                 border-width: 2px;
             }
         }
 
-        /* Untuk layar sangat kecil, tetap proporsional */
         @media screen and (max-width: 480px) {
             .grid-3x3 {
                 gap: 3px;
@@ -388,20 +386,17 @@
 <body>
 
 <div class="app-wrapper">
-    <!-- Header compact -->
     <div class="top-bar">
         <span class="app-title">Convert Tools</span>
         <img src="https://z-cdn-media.chatglm.cn/files/a0b674d0-3b9b-4d8b-a3a5-4d06cbbe2a88.png?auth_key=1870195860-833d93a4889b4ef49c52d0c4e3a13a73-0-dfae0851ee06920b914c96e9fc3fc540" 
              alt="Polytron" class="logo">
     </div>
 
-    <!-- Tab sederhana -->
     <div class="tabs">
         <button class="tab active" data-tab="tab1">TAP 1 (3x3)</button>
         <button class="tab" data-tab="tab2">TAP 2 (Rata Atas)</button>
     </div>
 
-    <!-- Panel TAP 1 -->
     <div id="panel1" class="panel active">
         <div class="upload-box" id="uploadBoxGrid">
             <div class="upload-icon">📂</div>
@@ -415,7 +410,6 @@
         </div>
     </div>
 
-    <!-- Panel TAP 2 -->
     <div id="panel2" class="panel">
         <div class="upload-box" id="uploadBoxPhoto">
             <div class="upload-icon">📂</div>
@@ -429,7 +423,6 @@
         </div>
     </div>
 
-    <!-- Preview area - sejajar A4 -->
     <div id="previewContainer" class="preview-area">
         <div class="empty-preview">
             📸 Belum ada data<br>Upload gambar atau PDF untuk mulai
@@ -456,19 +449,16 @@
     const toast = document.getElementById('toast');
     const loader = document.getElementById('loader');
 
-    // Elemen Tab
     const tabBtns = document.querySelectorAll('.tab');
     const panel1 = document.getElementById('panel1');
     const panel2 = document.getElementById('panel2');
 
-    // TAP 1 elements
     const fileGrid = document.getElementById('fileGrid');
     const uploadBoxGrid = document.getElementById('uploadBoxGrid');
     const downloadGridBtn = document.getElementById('downloadGridBtn');
     const resetGridBtn = document.getElementById('resetGridBtn');
     const infoGrid = document.getElementById('infoGrid');
 
-    // TAP 2 elements
     const filePhoto = document.getElementById('filePhoto');
     const uploadBoxPhoto = document.getElementById('uploadBoxPhoto');
     const downloadPhotoBtn = document.getElementById('downloadPhotoBtn');
@@ -491,7 +481,6 @@
         }
     }
 
-    // Konversi PDF ke gambar
     async function pdfToImages(file) {
         const arrayBuf = await file.arrayBuffer();
         const pdfDoc = await pdfjsLib.getDocument({ data: arrayBuf }).promise;
@@ -550,7 +539,7 @@
         }
     }
 
-    // Render preview dengan layout sejajar A4
+    // RENDER PREVIEW - TAP 1 menggunakan object-fit: contain AGAR TIDAK TERPOTONG
     function renderPreview() {
         previewDiv.innerHTML = '';
         const images = (activeTab === 'grid') ? imagesGrid : imagesPhoto;
@@ -563,7 +552,7 @@
         emptyState.style.display = 'none';
 
         if (activeTab === 'grid') {
-            // TAP 1: 9 gambar per halaman (3x3)
+            // TAP 1: 9 gambar per halaman
             const perPage = 9;
             for (let i = 0; i < images.length; i += perPage) {
                 const page = document.createElement('div');
@@ -576,6 +565,10 @@
                     box.className = 'photo-card';
                     const img = document.createElement('img');
                     img.src = imgSrc;
+                    // Memastikan gambar tidak terpotong
+                    img.style.objectFit = 'contain';
+                    img.style.width = '100%';
+                    img.style.height = '100%';
                     box.appendChild(img);
                     grid.appendChild(box);
                 }
@@ -590,7 +583,7 @@
                 previewDiv.appendChild(page);
             }
         } else {
-            // TAP 2: 3 gambar per halaman (3 kolom, 1 baris per halaman)
+            // TAP 2: 3 gambar per halaman
             const perPage = 3;
             for (let i = 0; i < images.length; i += perPage) {
                 const page = document.createElement('div');
@@ -603,6 +596,9 @@
                     box.className = 'photo-card';
                     const img = document.createElement('img');
                     img.src = imgSrc;
+                    img.style.width = '100%';
+                    img.style.height = 'auto';
+                    img.style.objectFit = 'contain';
                     box.appendChild(img);
                     grid.appendChild(box);
                 }
@@ -711,7 +707,8 @@
                 const canvas = await html2canvas(pages[i], {
                     scale: 3.5,
                     useCORS: true,
-                    backgroundColor: '#ffffff'
+                    backgroundColor: '#ffffff',
+                    logging: false
                 });
                 const imgData = canvas.toDataURL('image/jpeg', 0.96);
                 if (i > 0) pdf.addPage();
@@ -758,7 +755,6 @@
     resetGridBtn.addEventListener('click', () => resetData('grid'));
     resetPhotoBtn.addEventListener('click', () => resetData('photo'));
     
-    // Switch Tab
     function switchTab(tabId) {
         if (tabId === 'tab1') {
             activeTab = 'grid';
@@ -785,7 +781,6 @@
         });
     });
     
-    // Initial render
     renderPreview();
 </script>
 </body>
